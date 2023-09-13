@@ -1,0 +1,68 @@
+Here are the steps on how to write a Go program to generate ASCII art:
+
+Create a new Go project.
+Create a file called ascii_art.go.
+Import the strings and fmt packages.
+Define a function called asciiArt that takes a string as input and returns a string of ASCII art.
+In the asciiArt function, iterate over the characters in the input string. For each character, find the corresponding ASCII art template and print it to the output string.
+Create a test file called ascii_art_test.go.
+Write unit tests for the asciiArt function.
+Run the go test command to run the unit tests.
+
+
+Here is an example of the ascii_art.go file:
+
+package main
+
+import (
+    "strings"
+    "fmt"
+)
+
+func asciiArt(text string) string {
+    output := ""
+    for _, char := range text {
+        output += getASCIIArtForChar(char)
+    }
+    return output
+}
+
+func getASCIIArtForChar(char byte) string {
+    switch char {
+    case ' ':
+        return "......"
+    case '!':
+        return "._.."
+    case '"':
+        return "._._.."
+    default:
+        return ""
+    }
+}
+
+func main() {
+    fmt.Println(asciiArt("Hello, world!"))
+}
+
+
+
+Here is an example of the ascii_art_test.go file:
+
+package main
+
+import (
+    "testing"
+)
+
+func TestAsciiArt(t *testing.T) {
+    assert := func(expected, actual string) {
+        if expected != actual {
+           t.Errorf("Expected %s, got %s", expected, actual)
+        }
+    }
+
+    assert("......", asciiArt(" "))
+    assert("._..", asciiArt("!"))
+    assert("._._..", asciiArt("\""))
+}
+
