@@ -1,0 +1,30 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
+
+var asciiMap = map[rune][]string{
+	' ': {"......", "......", "......", "......", "......", "......", "......", "......"},
+	'!': {".\\_..", "|.|. ", "|.|. ", "|.|. ", "|\\|. ", "(\\_).", ".... ", ".... "},
+	'"': {".\\_.\\_..", "(.|.).", ".V.V..", "......", "......", "......", "......", "......"},
+}
+
+func main() {
+	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Print("Enter a string: ")
+	scanner.Scan()
+	text := scanner.Text()
+
+	for i := 0; i < 8; i++ {
+		line := ""
+		for _, r := range text {
+			char := asciiMap[r]
+			line += char[i] + " "
+		}
+		fmt.Println(strings.TrimSpace(line))
+	}
+}
