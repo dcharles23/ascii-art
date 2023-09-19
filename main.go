@@ -15,12 +15,12 @@ func main() {
 		asciiTemplates := returnToTheASCIIArray(fileLines)
 
 		printOutput(userInput, asciiTemplates)
-
+		//for each letter of the user input it asigns an ascii character from asciiTemplates
 	}
 }
 
 func ReadStandardTxt() []string {
-	readFile, err := os.Open("standard.txt")
+	readFile, err := os.Open("standard.txt") // os.Open opens the file so data can be accessed
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -36,22 +36,21 @@ func ReadStandardTxt() []string {
 	return fileLines
 }
 
+// for every 8 lines a new ascii symbol is added
 func returnToTheASCIIArray(fileLines []string) [][]string {
-	var asciiTemplates [][]string
+	var asciiTemplates [][]string // 2D array is an array that stores an array
 	counter := 0
 	var tempAsciArray []string
 	for _, line := range fileLines {
 		counter++
 		// fmt.Println(index, line)
 		if counter != 1 {
-			tempAsciArray = append(tempAsciArray, line)
+			tempAsciArray = append(tempAsciArray, line) //tempAsciArray is the current symbol
 		}
 		if counter == 9 {
-			// fmt.Println("add to list") // but dont include the first line because it is empty line
 			asciiTemplates = append(asciiTemplates, tempAsciArray)
-			counter = 0
-			tempAsciArray = nil
-		} else {
+			counter = 0         // resets counter
+			tempAsciArray = nil // resets tempAsciArray
 		}
 	}
 	return asciiTemplates
@@ -63,7 +62,7 @@ func printMultipleCharacter(s string, asciiTemplates [][]string) {
 	// index 0 follwed by a $ and newline, index 1 follwed by a $ and newline etc.
 	// the $ decalres the end of terminal usage
 	tempIntArrLetter := returnAsciiCodeInt(s)
-	for i := 0; i < 8; i++ {
+	for i := 0; i < 8; i++ { //each ascii symbol is made up of 8 lines
 		for _, v := range tempIntArrLetter {
 			fmt.Print(asciiTemplates[v][i])
 		}
@@ -74,7 +73,7 @@ func printMultipleCharacter(s string, asciiTemplates [][]string) {
 func returnAsciiCodeInt(s string) []int {
 	var tempIntArrLetter []int
 	for _, v := range s {
-		tempIntArrLetter = append(tempIntArrLetter, (int(v) - 32))
+		tempIntArrLetter = append(tempIntArrLetter, (int(v) - 32)) // 32 is the decimal number position for space in the ascii table. in the standard txt file we store a space as the 0 index
 	}
 	return tempIntArrLetter
 }
@@ -110,20 +109,20 @@ func returnstring2EndlineArray(text string) []string {
 	newline := "\n"
 
 	for {
-		idx := strings.Index(text, escapedN)
-		if idx == -1 {
+		index := strings.Index(text, escapedN)
+		if index == -1 {
 			substrings = append(substrings, text)
 			break
 		}
 
-		substrings = append(substrings, text[:idx])
+		substrings = append(substrings, text[:index])
 
-		if idx+len(escapedN) < len(text) && text[idx+len(escapedN)] == 'n' {
+		if index+len(escapedN) < len(text) && text[index+len(escapedN)] == 'n' {
 			substrings = append(substrings, newline)
-			text = text[idx+len(escapedN)+1:]
+			text = text[index+len(escapedN)+1:]
 		} else {
 			substrings = append(substrings, escapedN)
-			text = text[idx+len(escapedN):]
+			text = text[index+len(escapedN):]
 		}
 	}
 	// fmt.Printf("%#v\n", substrings)
