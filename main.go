@@ -9,16 +9,12 @@ import (
 
 func main() {
 	if len(os.Args) == 2 {
-		textFromOutside := os.Args[1]
+		userInput := os.Args[1]
 		fileLines := ReadStandardTxt()
-		// fmt.Println(textFromOutside, fileLines)
-		asciiTemplates := return2dASCIIArray(fileLines)
-		// fmt.Println(asciiTemplates)
-		// printMultipleCharacter(textFromOutside, asciiTemplates)
-		// fmt.Println(int('\n'))
-		// test1 := "\nHello\nWorld\n\nMom\n\n\nAnd Dad\n"
-		// fmt.Println(returnstring2EndlineArray(textFromOutside))
-		printAllStringASCII(textFromOutside, asciiTemplates)
+
+		asciiTemplates := returnToTheASCIIArray(fileLines)
+
+		printOutput(userInput, asciiTemplates)
 
 	}
 }
@@ -40,7 +36,7 @@ func ReadStandardTxt() []string {
 	return fileLines
 }
 
-func return2dASCIIArray(fileLines []string) [][]string {
+func returnToTheASCIIArray(fileLines []string) [][]string {
 	var asciiTemplates [][]string
 	counter := 0
 	var tempAsciArray []string
@@ -61,10 +57,11 @@ func return2dASCIIArray(fileLines []string) [][]string {
 	return asciiTemplates
 }
 
-// problem '\n' logic when we have 2 '\n' or 1 '\n' is different
+// problem '\n' logic when we detect 2 '\n' or 1 '\n' is different
 func printMultipleCharacter(s string, asciiTemplates [][]string) {
-	// for ex 'hello'
-	// we gonna write all letters index 0 after $ after \n after index 1  after $ after \n
+	// for example 'hello'
+	// index 0 follwed by a $ and newline, index 1 follwed by a $ and newline etc.
+	// the $ decalres the end of terminal usage
 	tempIntArrLetter := returnAsciiCodeInt(s)
 	for i := 0; i < 8; i++ {
 		for _, v := range tempIntArrLetter {
@@ -82,20 +79,7 @@ func returnAsciiCodeInt(s string) []int {
 	return tempIntArrLetter
 }
 
-func printAllStringASCII(text string, asciiTemplates [][]string) {
-	/*
-		if ends w \n it gonna print println $
-		if you can see text after \n chec;
-		before \n
-		if yes  println $
-		if no println
-	*/
-
-	/*
-	   func to uses printMultipleCharacters print whole stringfrom outside
-	*/
-	// Split the input string into an array of strings
-	// split the line into words if there is a "\r\n" symbol
+func printOutput(text string, asciiTemplates [][]string) {
 	substrings := returnstring2EndlineArray(text)
 	lenOfsubstrings := len(substrings)
 	for index, v := range substrings {
@@ -104,9 +88,9 @@ func printAllStringASCII(text string, asciiTemplates [][]string) {
 			if index == lenOfsubstrings-1 {
 				fmt.Println("$")
 			} else if index == 0 {
-				fmt.Println("$") // no idea CHECK IT POTENTIAL ERROR
+				fmt.Println("$")
 			} else {
-				if substrings[index-1] == "\\n" {
+				if substrings[index-1] == "\\n" { // if you want to detect a '\n' in a string you need '\\n' we need to detect the actual '\n' not just a new line
 					fmt.Println("$")
 
 				} else {
